@@ -154,8 +154,9 @@ export default function Home() {
           <div className="flex items-center gap-2 mb-2">
             <h3 className="text-sm font-jetbrains-mono text-white/70 group-hover:text-white transition-colors duration-300">Parameters</h3>
           </div>
-          <div className="space-y-4">
-            <div className="transition-all duration-300 group-hover:opacity-100 opacity-0">
+          <div className="space-y-4 transition-all duration-300 group-hover:w-[200px] w-[100px]">
+            <p className="text-xs font-jetbrains-mono text-white/70 group-hover:opacity-0 opacity-100 transition-opacity duration-300 text-center">hover over me :)</p>
+            <div className="transition-all duration-300 group-hover:opacity-100 opacity-0 group-hover:h-auto h-0 overflow-hidden">
               <ParameterSlider
                 label="a"
                 value={params.a}
@@ -166,7 +167,7 @@ export default function Home() {
                 description="Controls the z-axis scaling and overall shape"
               />
             </div>
-            <div className="transition-all duration-300 group-hover:opacity-100 opacity-0">
+            <div className="transition-all duration-300 group-hover:opacity-100 opacity-0 group-hover:h-auto h-0 overflow-hidden">
               <ParameterSlider
                 label="b"
                 value={params.b}
@@ -177,7 +178,7 @@ export default function Home() {
                 description="Affects rotation speed and pattern density"
               />
             </div>
-            <div className="transition-all duration-300 group-hover:opacity-100 opacity-0">
+            <div className="transition-all duration-300 group-hover:opacity-100 opacity-0 group-hover:h-auto h-0 overflow-hidden">
               <ParameterSlider
                 label="c"
                 value={params.c}
@@ -188,7 +189,7 @@ export default function Home() {
                 description="Determines vertical offset and pattern height"
               />
             </div>
-            <div className="transition-all duration-300 group-hover:opacity-100 opacity-0">
+            <div className="transition-all duration-300 group-hover:opacity-100 opacity-0 group-hover:h-auto h-0 overflow-hidden">
               <ParameterSlider
                 label="d"
                 value={params.d}
@@ -199,7 +200,7 @@ export default function Home() {
                 description="Controls overall size and pattern spread"
               />
             </div>
-            <div className="transition-all duration-300 group-hover:opacity-100 opacity-0">
+            <div className="transition-all duration-300 group-hover:opacity-100 opacity-0 group-hover:h-auto h-0 overflow-hidden">
               <ParameterSlider
                 label="e"
                 value={params.e}
@@ -210,7 +211,7 @@ export default function Home() {
                 description="Influences pattern complexity and detail"
               />
             </div>
-            <div className="transition-all duration-300 group-hover:opacity-100 opacity-0">
+            <div className="transition-all duration-300 group-hover:opacity-100 opacity-0 group-hover:h-auto h-0 overflow-hidden">
               <ParameterSlider
                 label="f"
                 value={params.f}
