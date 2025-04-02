@@ -83,18 +83,13 @@ function AizawaAttractor({ scrollProgress, params }: { scrollProgress: number, p
       }
     }
   }, [geometry])
-  
+
   return (
-  <primitive
-      object={new THREE.Line()} 
-    ref={meshRef}
-    >
-    <bufferGeometry />
-      <lineBasicMaterial color="#00A5E0" linewidth={1} /?
-
-    </primitive>
+    <line ref={meshRef}>
+      <bufferGeometry />
+      <lineBasicMaterial color="#00A5E0" linewidth={1} />
+    </line>
   )
-
 }
 
 function Scene({ scrollProgress, params }: { scrollProgress: number, params: AizawaParams }) {
