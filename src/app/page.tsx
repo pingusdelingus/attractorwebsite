@@ -18,6 +18,7 @@ interface AizawaParams {
 function AizawaAttractor({ scrollProgress, params }: { scrollProgress: number, params: AizawaParams }) {
   const meshRef = useRef<THREE.Line>(null)
   const [positions, setPositions] = useState<THREE.Vector3[]>([])
+  const [geometry, setGeometry] = useState<THREE.BufferGeometry | null>(null)
 
   useEffect(() => {
     const generateAttractor = () => {
@@ -56,11 +57,29 @@ function AizawaAttractor({ scrollProgress, params }: { scrollProgress: number, p
         ...positions.slice(0, Math.max(0, visiblePoints - (positions.length - (scrollOffset % positions.length)))),
       ]
 
-      meshRef.current.geometry.setFromPoints(displayedPoints)
+      // Dispose of the old geometry if it exists
+      if (geometry) {
+        geometry.dispose()
+      }
+
+      // Create a new geometry with the current points
+      const newGeometry = new THREE.BufferGeometry().setFromPoints(displayedPoints)
+      setGeometry(newGeometry)
+      meshRef.current.geometry = newGeometry
+
       meshRef.current.rotation.y = time * 0.1
       meshRef.current.scale.setScalar(20 + scrollProgress * 10)
     }
   })
+
+  // Cleanup geometry on unmount
+  useEffect(() => {
+    return () => {
+      if (geometry) {
+        geometry.dispose()
+      }
+    }
+  }, [geometry])
 
   return (
     <line ref={meshRef}>
