@@ -4,10 +4,20 @@ import { useRef, useState, useEffect } from "react"
 import { Canvas, useFrame, useThree } from "@react-three/fiber"
 import { OrbitControls } from "@react-three/drei"
 import * as THREE from "three"
+import { Slider } from "@/components/ui/slider"
 
-function AizawaAttractor({ scrollProgress }) {
-  const meshRef = useRef()
-  const [positions, setPositions] = useState([])
+interface AizawaParams {
+  a: number
+  b: number
+  c: number
+  d: number
+  e: number
+  f: number
+}
+
+function AizawaAttractor({ scrollProgress, params }: { scrollProgress: number, params: AizawaParams }) {
+  const meshRef = useRef<THREE.Line>(null)
+  const [positions, setPositions] = useState<THREE.Vector3[]>([])
 
   useEffect(() => {
     const generateAttractor = () => {
@@ -15,17 +25,11 @@ function AizawaAttractor({ scrollProgress }) {
       let x = 0.1
       let y = 0
       let z = 0
-      const a = 0.95
-      const b = 0.7
-      const c = 0.6
-      const d = 3.5
-      const e = 0.25
-      const f = 0.1
 
       for (let i = 0; i < 20000; i++) {
-        const dx = (z - b) * x - d * y
-        const dy = d * x + (z - b) * y
-        const dz = c + a * z - (z * z * z) / 3 - (x * x + y * y) * (1 + e * z) + f * z * x * x * x
+        const dx = (z - params.b) * x - params.d * y
+        const dy = params.d * x + (z - params.b) * y
+        const dz = params.c + params.a * z - (z * z * z) / 3 - (x * x + y * y) * (1 + params.e * z) + params.f * z * x * x * x
 
         x += dx * 0.01
         y += dy * 0.01
@@ -37,14 +41,13 @@ function AizawaAttractor({ scrollProgress }) {
     }
 
     generateAttractor()
-  }, [])
+  }, [params])
 
   useFrame((state, delta) => {
     if (meshRef.current && positions.length > 0) {
       const time = state.clock.getElapsedTime()
       const convergenceRate = 0.1 + scrollProgress * 0.9
 
-      // Create double scroll effect
       const scrollOffset = Math.floor(positions.length * scrollProgress) * 2
       const visiblePoints = positions.length * (0.1 + scrollProgress * 0.9)
 
@@ -54,37 +57,79 @@ function AizawaAttractor({ scrollProgress }) {
       ]
 
       meshRef.current.geometry.setFromPoints(displayedPoints)
-
       meshRef.current.rotation.y = time * 0.1
-      meshRef.current.scale.setScalar(20 + scrollProgress * 10) // Increased scale
+      meshRef.current.scale.setScalar(20 + scrollProgress * 10)
     }
   })
 
   return (
     <line ref={meshRef}>
       <bufferGeometry />
-      <lineBasicMaterial color="#00A5E0" linewidth={1} /> {/* Picton Blue */}
+      <lineBasicMaterial color="#00A5E0" linewidth={1} />
     </line>
   )
 }
 
-function Scene({ scrollProgress }) {
+function Scene({ scrollProgress, params }: { scrollProgress: number, params: AizawaParams }) {
   const { camera } = useThree()
 
   useEffect(() => {
-    camera.position.z = 50 // Decreased from 150 to 50 for a closer view
+    camera.position.z = 50
   }, [camera])
 
   return (
     <>
-      <AizawaAttractor scrollProgress={scrollProgress} />
+      <AizawaAttractor scrollProgress={scrollProgress} params={params} />
       <OrbitControls enableZoom={false} enablePan={false} />
     </>
   )
 }
 
+function ParameterSlider({ 
+  label, 
+  value, 
+  onChange, 
+  min, 
+  max, 
+  step,
+  description
+}: { 
+  label: string
+  value: number
+  onChange: (value: number) => void
+  min: number
+  max: number
+  step: number
+  description: string
+}) {
+  return (
+    <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-1">
+        <label className="text-sm font-jetbrains-mono text-white">{label}</label>
+        <p className="text-xs font-jetbrains-mono text-white/70">{description}</p>
+      </div>
+      <Slider
+        value={[value]}
+        onValueChange={([newValue]) => onChange(newValue)}
+        min={min}
+        max={max}
+        step={step}
+        className="w-[200px]"
+      />
+    </div>
+  )
+}
+
 export default function Home() {
   const [scrollProgress, setScrollProgress] = useState(0)
+  const [params, setParams] = useState<AizawaParams>({
+    a: 0.95,
+    b: 0.7,
+    c: 0.6,
+    d: 3.5,
+    e: 0.25,
+    f: 0.1
+  })
 
   useEffect(() => {
     const handleScroll = () => {
@@ -101,8 +146,83 @@ export default function Home() {
     <main className="min-h-screen" style={{ background: "#424874" }}>
       <div className="fixed inset-0 z-0">
         <Canvas>
-          <Scene scrollProgress={scrollProgress} />
+          <Scene scrollProgress={scrollProgress} params={params} />
         </Canvas>
+      </div>
+      <div className="fixed top-4 right-4 z-20 bg-black/50 p-2 rounded-lg backdrop-blur-sm transition-all duration-300 hover:p-4 group">
+        <div className="flex flex-col gap-4">
+          <div className="flex items-center gap-2 mb-2">
+            <h3 className="text-sm font-jetbrains-mono text-white/70 group-hover:text-white transition-colors duration-300">Parameters</h3>
+          </div>
+          <div className="space-y-4">
+            <div className="transition-all duration-300 group-hover:opacity-100 opacity-0">
+              <ParameterSlider
+                label="a"
+                value={params.a}
+                onChange={(value) => setParams({ ...params, a: value })}
+                min={0}
+                max={2}
+                step={0.01}
+                description="Controls the z-axis scaling and overall shape"
+              />
+            </div>
+            <div className="transition-all duration-300 group-hover:opacity-100 opacity-0">
+              <ParameterSlider
+                label="b"
+                value={params.b}
+                onChange={(value) => setParams({ ...params, b: value })}
+                min={0}
+                max={2}
+                step={0.01}
+                description="Affects rotation speed and pattern density"
+              />
+            </div>
+            <div className="transition-all duration-300 group-hover:opacity-100 opacity-0">
+              <ParameterSlider
+                label="c"
+                value={params.c}
+                onChange={(value) => setParams({ ...params, c: value })}
+                min={0}
+                max={2}
+                step={0.01}
+                description="Determines vertical offset and pattern height"
+              />
+            </div>
+            <div className="transition-all duration-300 group-hover:opacity-100 opacity-0">
+              <ParameterSlider
+                label="d"
+                value={params.d}
+                onChange={(value) => setParams({ ...params, d: value })}
+                min={0}
+                max={5}
+                step={0.1}
+                description="Controls overall size and pattern spread"
+              />
+            </div>
+            <div className="transition-all duration-300 group-hover:opacity-100 opacity-0">
+              <ParameterSlider
+                label="e"
+                value={params.e}
+                onChange={(value) => setParams({ ...params, e: value })}
+                min={0}
+                max={1}
+                step={0.01}
+                description="Influences pattern complexity and detail"
+              />
+            </div>
+            <div className="transition-all duration-300 group-hover:opacity-100 opacity-0">
+              <ParameterSlider
+                label="f"
+                value={params.f}
+                onChange={(value) => setParams({ ...params, f: value })}
+                min={0}
+                max={1}
+                step={0.01}
+                description="Creates asymmetry in the pattern"
+              />
+            </div>
+          </div>
+        </div>
       </div>
       <div className="relative z-10">
         <header className="p-8">
