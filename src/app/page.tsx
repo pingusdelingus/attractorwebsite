@@ -63,7 +63,10 @@ function AizawaAttractor({ scrollProgress, params }: { scrollProgress: number, p
       }
 
       // Create a new geometry with the current points
-      const newGeometry = new THREE.BufferGeometry().setFromPoints(displayedPoints)
+      const newGeometry = new THREE.BufferGeometry()
+      newGeometry.setFromPoints(displayedPoints)
+      newGeometry.computeBoundingSphere()
+      newGeometry.computeVertexNormals()
       setGeometry(newGeometry)
       meshRef.current.geometry = newGeometry
 
