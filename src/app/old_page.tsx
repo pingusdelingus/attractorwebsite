@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useRef, useState, useEffect } from "react"
@@ -63,7 +64,7 @@ function AizawaAttractor({ scrollProgress }) {
   return (
     <line ref={meshRef}>
       <bufferGeometry />
-      <lineBasicMaterial color="#00A5E0" linewidth={1} /> {/* Picton Blue */}
+      <lineBasicMaterial color="blue" linewidth={1} />
     </line>
   )
 }
@@ -98,48 +99,47 @@ export default function Home() {
   }, [])
 
   return (
-    <main className="min-h-screen" style={{ background: "#424874" }}>
+    <main className="min-h-screen bg-black text-white">
       <div className="fixed inset-0 z-0">
         <Canvas>
           <Scene scrollProgress={scrollProgress} />
         </Canvas>
       </div>
       <div className="relative z-10">
-        <header className="p-8">
-          <h1 className="text-4xl font-bold mb-4 translucent-text font-jetbrains-mono">esteban morales</h1>
-          <p className="text-xl translucent-text font-jetbrains-mono">Data Scientist & Creative Coder</p>
+        <header className="p-8 bg-black/50 backdrop-blur-md">
+          <h1 className="text-4xl font-bold mb-4">Your Name</h1>
+          <p className="text-xl">Web Developer & Creative Coder</p>
         </header>
         <section className="min-h-screen flex items-center justify-center p-8">
-          <div className="max-w-2xl p-8 rounded-lg translucent-container">
-            <h2 className="text-3xl font-bold mb-4 translucent-text font-jetbrains-mono">About Me</h2>
-            <p className="mb-4 translucent-text font-jetbrains-mono">
-             Esteban is a Junior at the University of Miami, currently studying Mathematics, Data Science & AI. 
-            He has devoted his time to working as an educator with K-12 students and as a researcher for the TPTP World Project. 
-            His enthusiasm for teaching stems from his conviction that aiding students in understanding mathematics conceptually
-            promotes the development of analytical and critical thinking, invaluable resources in the modern world. 
-            In his free time, he enjoys filmmaking, playing chess, and exploring the outdoors. 
+          <div className="max-w-2xl bg-black/50 backdrop-blur-md p-8 rounded-lg">
+            <h2 className="text-3xl font-bold mb-4">About Me</h2>
+            <p className="mb-4">
+              I'm a passionate web developer with a love for creative coding and data visualization. My work combines
+              cutting-edge web technologies with mathematical concepts to create unique and engaging user experiences.
             </p>
-            <p className="translucent-text font-jetbrains-mono">
-              Scroll down to see how the Aizawa attractor in the background evolves.
+            <p>
+              Scroll down to see how the Aizawa attractor in the background evolves, symbolizing the complexity and
+              beauty of the digital world we create.
             </p>
           </div>
         </section>
         <section className="min-h-screen flex items-center justify-center p-8">
-          <div className="max-w-2xl p-8 rounded-lg translucent-container">
-            <h2 className="text-3xl font-bold mb-4 translucent-text font-jetbrains-mono">My Projects</h2>
+          <div className="max-w-2xl p-8 rounded-lg">
+            <h2 className="text-3xl font-bold mb-4">My Projects</h2>
             <ul className="list-disc list-inside">
-              <li> <a href="https://github.com/pingusdelingus/IDVDir_dev" className="translucent-text font-jetbrains-mono">interactive data visualization for TPTP </a></li>
-              <li> <a href="https://tuitionary.onrender.com" className="translucent-text font-jetbrains-mono"> ai powered scholarship application automation </a> </li>
-              <li> <a href="https://github.com/pingusdelingus/qed" className="translucent-text font-jetbrains-mono">created staticly typed, compiled, qbit oriented programming language for quantum computing</a></li>
+              <li>Interactive Data Visualizations</li>
+              <li>Generative Art Installations</li>
+              <li>Web-based 3D Experiences</li>
+              <li>Custom React Components</li>
             </ul>
           </div>
         </section>
         <section className="min-h-screen flex items-center justify-center p-8">
-          <div className="max-w-2xl p-8 rounded-lg translucent-container">
-            <h2 className="text-3xl font-bold mb-4 translucent-text font-jetbrains-mono">Contact Me</h2>
-            <p className="mb-4 translucent-text font-jetbrains-mono">interested in working together? feel free to reach out on github</p>
-            <a href="https://github.com/pingusdelingus" className="translucent-link hover:underline font-jetbrains-mono">
-              click me :)
+          <div className="max-w-2xl p-8 rounded-lg">
+            <h2 className="text-3xl font-bold mb-4">Contact Me</h2>
+            <p className="mb-4">Interested in working together? Feel free to reach out!</p>
+            <a href="mailto:your.email@example.com" className="text-blue-400 hover:underline">
+              your.email@example.com
             </a>
           </div>
         </section>
