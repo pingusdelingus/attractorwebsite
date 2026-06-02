@@ -246,7 +246,11 @@ export default function Home() {
       </div>
       <div className="relative z-10">
         <header className="p-8">
-          <h1 className="text-4xl font-bold mb-4 translucent-text font-jetbrains-mono">esteban morales</h1>
+          <h1 className="text-4xl font-bold mb-4 translucent-text font-jetbrains-mono">
+        <a href="https://esteban-morales.onrender.com" target="_blank" rel="noopener noreferrer"> 
+            esteban morales
+        </a>
+          </h1>
           <p className="text-xl translucent-text font-jetbrains-mono">Data Scientist & Creative Coder</p>
         </header>
         <section className="min-h-screen flex items-center justify-center p-8">
